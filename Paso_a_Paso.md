@@ -47,7 +47,10 @@ Una vez finalizado el dataset en RoboFlow, utilizamos **Google Colab** para entr
 Ya una vez finalizada la parte de roboflow nos ayudaremos de la herramienta de colab para hacer las pruebas necesarios.
 
 - como primer paso instalaremos las librerias que necesitamos para comenzar a realizar las pruebas.
-```!pip install roboflow ultralytics```
+
+```python
+!pip install roboflow ultralytics
+```
 
 ---
 
@@ -55,19 +58,23 @@ Ya una vez finalizada la parte de roboflow nos ayudaremos de la herramienta de c
 
 - luego descargaremos el dataset que hemos hecho en roboflow.
 
-```from roboflow import Roboflow
+```python
+from roboflow import Roboflow
 rf = Roboflow(api_key="keyxxx")
 project = rf.workspace("trainyolo-2hzmz").project("train_yolo-bdfhb")
 version = project.version(2)
-dataset = version.download("yolov11")```
+dataset = version.download("yolov11")
+```
 
 ----
 ### 🔹 cargar el modelo base YOLO
 
 - para este paso se está utilizando un modelo base de YOLO previamente entrenado. Este modelo ya ha aprendido a reconocer múltiples objetos a partir de grandes conjuntos de datos. Al cargarlo, no se empieza desde cero, sino que se aprovecha ese conocimiento previo para adaptarlo a una nueva tarea mediante entrenamiento adicional.
 
-```from ultralytics import YOLO
-model = YOLO("yolo11s.pt")```
+```python
+from ultralytics import YOLO
+model = YOLO("yolo11s.pt")
+```
 
 ---
 ### 🔹 configuración del data set
@@ -75,13 +82,17 @@ model = YOLO("yolo11s.pt")```
 
 - El archivo data.yaml contiene la configuración del conjunto de datos que se utilizará para entrenar el modelo. En este archivo se especifican las rutas de las imágenes, así como las clases que el modelo debe aprender a reconocer.
 
-```data_path = "/content/train_yolo-2/data.yaml"```
+```pythpn
+data_path = "/content/train_yolo-2/data.yaml"
+```
+
 ---
 ### 🔹 Entrenamiento del modelo
 
 En esta etapa se entrena el modelo utilizando el conjunto de datos previamente definido. El parámetro epochs indica que el modelo recorrerá el dataset completo 15 veces para aprender los patrones de las imágenes. Por otro lado, imgsz=640 establece que todas las imágenes serán ajustadas a un tamaño de 640x640 píxeles, lo que permite un entrenamiento más uniforme.
 
-```results = model.train(
+```python
+results = model.train(
     data=data_path,
     epochs=15,
     imgsz=640
